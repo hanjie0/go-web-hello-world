@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: go-web-hello-world
+    release: go-web-hello-world
+  name: go-web-hello-world
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-web-hello-world
+      release: go-web-hello-world
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: go-web-hello-world
+        release: go-web-hello-world
+    spec:
+      containers:
+      - image: go-web-hello-world:1.0
+        imagePullPolicy: IfNotPresent
+        name: go-web-hello-world
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        
